@@ -1,6 +1,7 @@
-const CACHE_NAME = 'shifa-v4';
+const CACHE_NAME = 'shifa-v5';
 const ASSETS = [
-  './Shifa_App_TEST.html',
+  './',
+  './index.html',
   './data.js',
   './manifest.json',
   './icons/icon-192.png',
@@ -43,7 +44,7 @@ self.addEventListener('fetch', event => {
             caches.open(CACHE_NAME).then(c => c.put(event.request, clone));
           }
           return response;
-        }).catch(() => caches.match('./Shifa_App_TEST.html'));
+        }).catch(() => caches.match('./index.html'));
       })
     );
     return;

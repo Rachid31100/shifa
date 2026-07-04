@@ -2,7 +2,7 @@
   "name": "Shifa — Médecine Prophétique",
   "short_name": "Shifa",
   "description": "117 fiches de la Médecine Prophétique (At-Tibb an-Nabawi) d'Ibn Qayyim al-Jawziyya — principes, traitements, remèdes spirituels, préservation de la santé et pharmacopée.",
-  "start_url": "./Shifa_App_TEST.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#081803",
