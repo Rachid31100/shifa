@@ -1,6 +1,7 @@
-const CACHE_NAME = 'shifa-v1';
+const CACHE_NAME = 'shifa-v2';
 const ASSETS = [
   './Shifa_App_TEST.html',
+  './data.js',
   './manifest.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
