@@ -1,4 +1,4 @@
-const CACHE_NAME = 'shifa-v3';
+const CACHE_NAME = 'shifa-v4';
 const ASSETS = [
   './Shifa_App_TEST.html',
   './data.js',
