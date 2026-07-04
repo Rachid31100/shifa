@@ -100,6 +100,8 @@ html, body { width:100%; height:100%; background:#081803; font-family:"Lato",-ap
 .b-coran  { background:#F7EFD8; color:#8A6D1D; }
 .b-gen    { background:#EFEFEA; color:#6B6B60; }
 .b-faible { background:#FBEAE4; color:#A4502F; }
+.b-livre  { background:#1B4D1B; color:#F2E9C8; }
+.b-trad   { background:#F0E4D0; color:#7A5A2E; }
 
 /* DETAIL */
 .det-hd { background:linear-gradient(160deg,#0E2E0E,#1B4D1B); color:#fff; padding:16px 18px 20px; border-radius:0 0 24px 24px; }
@@ -259,6 +261,12 @@ function badgeFor(a){
   return ['b-gen','Principe général'];
 }
 
+function sourceBadge(f){
+  return (f.source === 'pratique')
+    ? ['b-trad','🏡 Remède traditionnel']
+    : ['b-livre','📖 Livre d\'Ibn Qayyim'];
+}
+
 function toast(msg){
   var t = byId('toast');
   t.textContent = msg; t.classList.add('show');
@@ -290,10 +298,12 @@ function navHtml(active){
 /* ─── RENDER : ITEM ─── */
 function itemHtml(f, from){
   var b = badgeFor(f.authenticite);
+  var s = sourceBadge(f);
   return '<div class="item" onclick="openFiche(\'' + f.id + '\',\'' + from + '\')">' +
     '<div class="row1"><div class="ttl">' + esc(f.titre) + '</div>' +
     (f.titre_arabe ? '<div class="ar">' + esc(f.titre_arabe) + '</div>' : '') + '</div>' +
     '<div class="rsm">' + esc(f.resume) + '</div>' +
+    '<span class="badge ' + s[0] + '">' + s[1] + '</span> ' +
     '<span class="badge ' + b[0] + '">' + b[1] + '</span></div>';
 }
 
@@ -365,7 +375,16 @@ function openFiche(id, from){
   byId('det-fav').classList.toggle('on', favs.indexOf(f.id) >= 0);
 
   var b = badgeFor(f.authenticite);
+  var s = sourceBadge(f);
   var html = '';
+
+  html += '<div class="det-sec"><div class="lbl">SOURCE</div>' +
+    '<span class="badge ' + s[0] + '" style="margin-top:0">' + s[1] + '</span>' +
+    '<p style="margin-top:8px;font-size:12.5px;color:#5F7A5C">' +
+    (f.source === 'pratique'
+      ? 'Remède issu de la tradition populaire — ne figure pas dans le livre d\'Ibn Qayyim al-Jawziyya.'
+      : 'Fiche issue de « La Médecine Prophétique » (At-Tibb an-Nabawi) d\'Ibn Qayyim al-Jawziyya, édition authentifiée.') +
+    '</p></div>';
 
   html += '<div class="det-sec"><div class="lbl">RÉSUMÉ</div><p>' + esc(f.resume) + '</p>';
   if (f.nature_classique) html += '<div class="nature-chip">Nature classique : ' + esc(f.nature_classique) + '</div>';
