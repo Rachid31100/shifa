@@ -237,7 +237,8 @@ var CATS = {
   traitements:        { nom:"Traitements du Prophète ﷺ",            court:"Traitements",         ar:"العلاجات",        em:"🌿" },
   remedes_spirituels: { nom:"Remèdes spirituels",                    court:"Remèdes spirituels",  ar:"الأدوية الروحية", em:"🤲" },
   preservation_sante: { nom:"Préservation de la santé",              court:"Préservation santé",  ar:"حفظ الصحة",       em:"🕌" },
-  pharmacopee:        { nom:"Pharmacopée prophétique",               court:"Pharmacopée",         ar:"مفردات الأدوية",  em:"🌱" }
+  pharmacopee:        { nom:"Pharmacopée prophétique",               court:"Pharmacopée",         ar:"مفردات الأدوية",  em:"🌱" },
+  remedes_pratiques:  { nom:"Remèdes pratiques & traditionnels",     court:"Remèdes pratiques",   ar:"وصفات تقليدية",   em:"🏡" }
 };
 
 var favs = [];
@@ -252,6 +253,7 @@ function esc(s){ return String(s == null ? '' : s).replace(/</g,'&lt;'); }
 
 function badgeFor(a){
   a = a || '';
+  if (a.indexOf('traditionnel') >= 0)       return ['b-trad','Tradition populaire'];
   if (a.indexOf('accordé') >= 0)            return ['b-sahih2','Sahih — Bukhari & Muslim'];
   if (a.indexOf('sahih') === 0)             return ['b-sahih1','Sahih'];
   if (a.indexOf('coranique') >= 0)          return ['b-coran','Texte coranique'];
@@ -313,12 +315,15 @@ function renderHome(){
   var keys = Object.keys(CATS);
   keys.forEach(function(k, i){
     var n = FICHES.filter(function(f){ return f.categorie === k; }).length;
+    if (n === 0) return;
     var c = CATS[k];
-    html += '<div class="cat-card' + (i === keys.length - 1 ? ' wide' : '') + '" onclick="openCat(\'' + k + '\')">' +
+    html += '<div class="cat-card' + (i === keys.length - 1 && keys.length % 2 === 1 ? ' wide' : '') + '" onclick="openCat(\'' + k + '\')">' +
       '<div class="em">' + c.em + '</div><div class="nm">' + c.nom + '</div>' +
       '<div class="ar">' + c.ar + '</div><div class="ct">' + n + ' fiches</div></div>';
   });
   byId('home-cats').innerHTML = html;
+  var ph = document.querySelector('#scr-home .search-box input');
+  if (ph) ph.placeholder = 'Rechercher parmi les ' + FICHES.length + ' fiches…';
   byId('disclaimer').textContent = '⚠ ' + SHIFA_META.avertissement;
   byId('nav-home').innerHTML = navHtml('home');
   byId('nav-cat').innerHTML = navHtml('');
@@ -397,6 +402,12 @@ function openFiche(id, from){
   if (f.remedes && f.remedes.length)
     html += '<div class="det-sec"><div class="lbl">REMÈDES</div><ul>' +
       f.remedes.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join('') + '</ul></div>';
+
+  if (f.usage)
+    html += '<div class="det-sec"><div class="lbl">UTILISATION</div><p>' + esc(f.usage) + '</p></div>';
+
+  if (f.posologie)
+    html += '<div class="det-sec"><div class="lbl">POSOLOGIE</div><p>' + esc(f.posologie) + '</p></div>';
 
   html += '<div class="det-sec"><div class="lbl">AUTHENTICITÉ</div>' +
     '<span class="badge ' + b[0] + '" style="margin-top:0">' + b[1] + '</span>' +
